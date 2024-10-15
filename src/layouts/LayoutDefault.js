@@ -8,7 +8,7 @@ function LayoutDefault({children}) {
             <Header></Header>
             <div className="flex">
                 <Sidebar ></Sidebar>
-                <div className="w-full p-5 m-5 bg-white rounded-xl shadow-lg border-[1px] border-[var(--primary)]">
+                <div className="w-full p-5 m-5 bg-white rounded-xl shadow-lg mt-[var(--header-height)]">
                     {children}
                 </div>
             </div>

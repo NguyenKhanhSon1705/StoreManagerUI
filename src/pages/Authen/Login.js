@@ -1,53 +1,73 @@
-
 import { useEffect, useState } from "react";
-
 import { FaFacebook } from "react-icons/fa6";
 
-import request from "~/utils/request";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import Input from '~/components/inputs/Input';
 import Button from "~/components/buttons/Button";
+import routes from "~/config/routes";
+import { login } from "~/store/actions/authAction";
+import BoxNotication from "~/components/helper/BoxNotication";
+import LoadingSyncLoader from "~/components/helper/LoadingSyncLoader";
+import Cookies from "js-cookie";
 
 const Login = () => {
 
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    let {loading, message } = useSelector(state => state.auth);
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [disabelBtn, setDisabelBtn] = useState(true)
+    const [disabelBtn, setDisabelBtn] = useState(true);
+    const [open, setOpen] = useState({ message: '', open: false, type: 'error' });
+    
+    // Chuyển đổi giá trị logined từ chuỗi thành boolean
+    const logined = Cookies.get(process.env.REACT_APP_LOGINED) === "true";
 
     useEffect(() => {
-        (email !== '' && password !== '') ? setDisabelBtn(false) : setDisabelBtn(true)
+        (email !== '' && password !== '') ? setDisabelBtn(false) : setDisabelBtn(true);
+    }, [email, password]);
 
-    }, [email, password])
-
-    const handleLogin = () => {
-        let ob = {
-            "email": email,
-            "password": password
+    useEffect(() => {
+        if (message) {
+            setOpen({ message: message, open: true, type: 'error' });
         }
-        console.log('ob', ob)
-        request.post('/Authen/login', {
-            params:ob
-        })
-        .then(res => console.log('res', res))
-        .catch(error => {
-            if (error.response) {
-              // Request made and server responded with a status code
-              // that falls out of the range of 2xx
-              console.error('Response data:', error.response.data);
-              console.error('Response status:', error.response.status);
-              console.error('Response headers:', error.response.headers);
-            } else if (error.request) {
-              // The request was made but no response was received
-              console.error('Request data:', error.request);
-            } else {
-              // Something happened in setting up the request that triggered an Error
-              console.error('Error message:', error.message);
-            }})
-    }
+    }, [navigate, message]);
+
+    // Điều hướng về trang home nếu đã đăng nhập (logined === true)
+    useEffect(() => {
+        if (logined) {
+            navigate(routes.shop);
+        }
+    }, [logined, navigate]);
+
+
+    const handleLogin = (e) => {
+        e.preventDefault();
+        dispatch(login({ email, password }));
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen({ message: '', open: false, type: 'error' });
+    };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-[var(--primary)]">
-            <div className=" bg-[rgba(255,255,255,0.9)] backdrop-blur-lg rounded-xl p-4 shadow-2xl w-full max-w-md">
+        <form className="min-h-screen flex items-center justify-center">
+            {loading && <LoadingSyncLoader></LoadingSyncLoader>}
+            <BoxNotication
+                handleClose={handleClose}
+                open={open.open}
+                timeout={4000}
+                type={open.type}
+                message={open.message}
+            />
+            <div className=" bg-[rgba(255,255,255,0.9)] backdrop-blur-lg rounded-xl py-10 px-4 shadow-2xl w-full max-w-md">
                 <h2 className="text-4xl font-extrabold mb-6 text-center">Đăng nhập</h2>
                 <div className="space-y-6">
                     <div className="relative">
@@ -69,13 +89,14 @@ const Login = () => {
                         />
                     </div>
                     <Button
-                        classDiff={'!px-0 !py-0 underline hover:text-red-600 !mt-2'}
+                        href={routes.forgotpassword}
+                        classDiff={'!px-0 !py-0 !justify-start underline hover:text-red-600 !mt-2'}
                     >Quên mật khẩu
                     </Button>
                     <Button
                         to={''}
                         disabled={disabelBtn}
-                        onClick={handleLogin}
+                        onClick={e => handleLogin(e)}
                         primary={true}
                         rounded={true}
                         large={true}
@@ -97,11 +118,11 @@ const Login = () => {
 
                 <p className=" text-center mt-6 text-sm ">
                     Bạn chưa có tài khoản
-                    <Button className=" font-bold hover:underline pl-1">Đăng ký</Button>
+                    <Button href={routes.register} className=" font-bold hover:underline pl-1">Đăng ký</Button>
                 </p>
             </div>
-        </div>
+        </form>
     );
-}
+};
 
-export default Login
+export default Login;

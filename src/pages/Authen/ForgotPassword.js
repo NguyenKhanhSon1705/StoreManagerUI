@@ -6,6 +6,7 @@ import { FaFacebook } from "react-icons/fa6";
 
 import Input from '~/components/inputs/Input';
 import Button from "~/components/buttons/Button";
+import routes from "~/config/routes";
 
 
 const ForgotPassword = () => {
@@ -74,7 +75,7 @@ const ForgotPassword = () => {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-[var(--primary)]">
-            <div className=" bg-[rgba(255,255,255,0.9)] backdrop-blur-lg rounded-xl p-4 shadow-2xl w-full max-w-md">
+            <div className=" bg-[rgba(255,255,255,0.9)] backdrop-blur-lg rounded-xl  py-10 px-4 shadow-2xl w-full max-w-md">
                 <h2 className="text-4xl font-extrabold mb-6 text-center">Quên mật khẩu</h2>
                 <div className="space-y-6">
                     <div className="relative">
@@ -145,7 +146,7 @@ const ForgotPassword = () => {
 
                 <p className=" text-center mt-6 text-sm ">
                     Bạn đã có tài khoản
-                    <Button className=" font-bold hover:underline pl-1">Đăng nhập</Button>
+                    <Button href={routes.login} className="font-bold hover:underline pl-1">Đăng nhập</Button>
                 </p>
             </div>
         </div>

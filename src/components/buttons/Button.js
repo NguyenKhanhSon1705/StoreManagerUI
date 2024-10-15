@@ -48,15 +48,17 @@ function Button({
             'bg-[var(--primary)] text-[var(--textwhite)]' : primary,
             'w-full': large,
             'w-1/2': small,
-            'rounded': rounded,
+            'rounded-md': rounded,
             'outline': outline,
             'opacity-30 cursor-default ': disabled,
         },classDiff)
 
     return (
-        <Comp className = {className}  {...props}>
-            {leftIcon && <span className='mr-2 cursor-default'>{leftIcon}</span>}
-            <span >{children}</span>
+        <Comp
+        aria-hidden="true"
+         className = {className}  {...props}>
+            {leftIcon && <span className='mr-2  cursor-default'>{leftIcon}</span>}
+            {children}
             {rightIcon && <span className='ml-2'>{rightIcon}</span>}
         </Comp>
     );

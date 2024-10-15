@@ -1,4 +1,4 @@
-import request from "./request";
+import request from "./axios";
 const { default: validateInput } = require("./validInput");
 
 const utils = {

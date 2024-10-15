@@ -4,14 +4,19 @@
 @tailwind components;
 @tailwind utilities;
 @import 'normalize.css';
+@import 'react-loading-skeleton/dist/skeleton.css';
 
 :root{
-    --primary: #2ab7ca;
+    --primary: #A66E38;
     --textdark: text-gray-600;
+    --textlight: rgb(255, 255, 255);
     --textwhite: #ffff;
     --outlineError: #f91d1d;
     --header-height: 70px;
     --sidebar-with: 240px;
+    --bg-btn-edit:#CAA100;
+    --bg-btn-delete:#C13726;
+    --bg-btn-add: #16987E;
 }
 
 *{
@@ -29,3 +34,11 @@ body {
     text-rendering: optimizespeed;
     overflow-y:overlay;
 }
+#root{
+    position: relative;
+}
+#box-container{
+    position: absolute;
+    
+}
+

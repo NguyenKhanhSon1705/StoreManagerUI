@@ -6,12 +6,17 @@ import { FaFacebook } from "react-icons/fa6";
 
 import Input from '~/components/inputs/Input';
 import Button from "~/components/buttons/Button";
+import routes from "~/config/routes";
+import { useDispatch, useSelector } from "react-redux";
+import {confirmEmail, register } from "~/store/actions/authAction";
+import BoxNotication from "~/components/helper/BoxNotication";
+import { useNavigate } from "react-router-dom";
+import LoadingSyncLoader from "~/components/helper/LoadingSyncLoader";
 
 
 const Register = () => {
 
     const [countdown, setCountdown] = useState('')
-
     const [email, setEmail] = useState('');
     const [phone, setphone] = useState('');
     const [password, setPassword] = useState('');
@@ -22,6 +27,7 @@ const Register = () => {
     const [disabledBtnLogin, setDisabledBtnLogin] = useState(true)
     const [disabledBtnCode, setDisabledBtnCode] = useState(true)
     const [on, setOn] = useState(false)
+
     useEffect(() => {
         if (email !== '' && phone !== '' && password !== '') {
             setDisabledCode(false)
@@ -52,31 +58,64 @@ const Register = () => {
         }
     }, [countdown, on])
 
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const { isSuccess, message , isConfirm , loading } = useSelector(state => state.auth)
+
+    const [open, setOpen] = useState({ message: '', open: false , type:'error' });
+
+    useEffect(() => {
+        if (isSuccess) {
+            setOpen({ message: message, open: true, type:'success' })
+            setCountdown(120)
+            setOn(true)
+            setDisabledBtnCode(true)
+            setDisabledInput(true)
+        }else if (message) {
+            setOpen({ message: message, open: true, type: 'error' })
+        }
+    }, [isSuccess, message])
+
+    useEffect(() => {
+        if(isConfirm){
+            navigate(routes.login,{state: {message: message}})
+        }
+    } , [isConfirm , navigate , message])
+
     const BtnSendCode = () => {
-        setOn(true)
-        setCountdown(120)
-        setDisabledBtnCode(true)
-        setDisabledInput(true)
-        let ob = {
+        dispatch(register({
             email: email,
             phone: phone,
-            password: password
-        }
-        console.log(ob)
+            password: password,
+        }))
     }
 
     const BtnLogin = () => {
-
-        let ob = {
+        dispatch(confirmEmail({
             email: email,
             code: code,
-        }
-        console.log(ob)
+        }))
     }
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-[var(--primary)]">
-            <div className=" bg-[rgba(255,255,255,0.9)] backdrop-blur-lg rounded-xl p-4 shadow-2xl w-full max-w-md">
+            {loading && <LoadingSyncLoader/>}
+            <BoxNotication
+                handleClose={handleClose}
+                open={open.open}
+                timeout={4000}
+                type={open.type}
+                message={open.message}
+            />
+            <div className=" bg-[rgba(255,255,255,0.9)] backdrop-blur-lg rounded-xl py-10 px-4 shadow-2xl w-full max-w-md">
                 <h2 className="text-4xl font-extrabold mb-6 text-center">Đăng ký</h2>
                 <div className="space-y-6">
                     <div className="relative">
@@ -155,7 +194,7 @@ const Register = () => {
 
                 <p className=" text-center mt-6 text-sm ">
                     Bạn đã có tài khoản
-                    <Button className=" font-bold hover:underline pl-1">Đăng nhập</Button>
+                    <Button href={routes.login} className=" font-bold hover:underline pl-1">Đăng nhập</Button>
                 </p>
             </div>
         </div>
