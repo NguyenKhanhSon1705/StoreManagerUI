@@ -9,7 +9,7 @@ import Button from "~/components/buttons/Button";
 import routes from "~/config/routes";
 import { login } from "~/store/actions/authAction";
 import BoxNotication from "~/components/helper/BoxNotication";
-import LoadingSyncLoader from "~/components/helper/LoadingSyncLoader";
+import LoadingSyncLoader from "~/components/loading/LoadingSyncLoader";
 import Cookies from "js-cookie";
 
 const Login = () => {

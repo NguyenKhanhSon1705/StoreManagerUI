@@ -9,7 +9,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 function DialogCustom({
     title = "Thông báo",
     open = false,
-    handleClose,
+    onClose,
     onSubmit,
     item = {},
     fields = []
@@ -37,14 +37,14 @@ function DialogCustom({
         <React.Fragment >
             <Dialog
                 open={open}
-                onClose={handleClose}
+                onClose={onClose}
                 PaperProps={{
                     component: 'form',
                     onSubmit: (event) => {
                       event.preventDefault();
                       formData.id = item.id
                       onSubmit(formData)
-                      handleClose();
+                      onClose();
                     },
                   }}
                 fullWidth
@@ -68,7 +68,7 @@ function DialogCustom({
                     ))}
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button onClick={onClose}>Cancel</Button>
                     <Button
                         className='!bg-[var(--primary)] !text-white'
                         type="submit">Gửi</Button>
@@ -78,4 +78,4 @@ function DialogCustom({
     );
 }
 
-export default React.memo(DialogCustom);
+export default DialogCustom;

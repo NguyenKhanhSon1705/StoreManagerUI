@@ -1,12 +1,9 @@
 const actionTypes = {
-    TEST: 'TEST',
     REGISTER: 'REGISTER',
     CONFIRM_EMAIL: 'CONFIRM_EMAIL',
     LOGIN: 'LOGIN',
     LOGOUT: 'LOGOUT',
     
-
-
     // USER
     GET_CURRENT: 'GET_CURRENT',
     GET_USER_OF_TREE: "GET_USER_OF_TREE",
@@ -25,6 +22,9 @@ const actionTypes = {
     DELETE_SHOP: "DELETE_SHOP",
     ACTIVE_SHOP: "ACTIVE_SHOP",
     CHOOSE_SHOP: "CHOOSE_SHOP",
+    LOADING_SHOP : 'LOADING_SHOP',
+    ERROR_SHOP : 'LOADING_SHOP',
+
 
     // Area
     GET_LIST_AREA: "GET_LIST_AREA",
@@ -32,6 +32,9 @@ const actionTypes = {
     CREATE_AREA: "CREATE_AREA",
     UPDATE_AREA: "UPDATE_AREA",
     DELETE_AREA: "DELETE_AREA",
+    LOADING_AREA: 'LOADING_AREA',
+    ERROR_AREA: 'LOADING_AREA',
+
     
     // Tables
     GET_LIST_TABLES: "GET_LIST_TABLES",
@@ -39,10 +42,10 @@ const actionTypes = {
     CREATE_TABLES: "CREATE_TABLES",
     UPDATE_TABLES: "UPDATE_TABLES",
     DELETE_TABLES: "DELETE_TABLES",
+    LOADING_TABLES: 'LOADING_TABLES',
+    ERROR_TABLES: 'LOADING_TABLES',
     
     // ERROR
-    ERROR: "ERROR"
- 
-    
+    FAIL: "FAIL"
 }
 export default actionTypes

@@ -6,7 +6,7 @@ import { FaRegUserCircle } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import images from '~/assets/images';
 import Button from '~/components/buttons/Button';
-import LoadingSkeleton from '~/components/helper/LoadingSkeleton';
+import LoadingSkeleton from '~/components/loading/LoadingSkeleton';
 import { getUserOfTree, getUserOfTreeById, lockUser } from '~/store/actions/userManageAction';
 import { useNavigate } from "react-router-dom";
 import routes from "~/config/routes";

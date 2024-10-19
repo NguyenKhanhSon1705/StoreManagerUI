@@ -34,6 +34,7 @@ export const apiCreateArea = async (payload)=>{
             idShop: shopId,
             areaName: payload.areaName,
         })
+        
         return res
     }catch(e){
         return e

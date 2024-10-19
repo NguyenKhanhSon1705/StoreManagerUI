@@ -6,7 +6,7 @@ const LoadingSyncLoader = ({
     margin,
     size,
     speedMultiplier,
-    color = "#43d3e7"
+    color = "#818484"
 }) => {
 
     return (

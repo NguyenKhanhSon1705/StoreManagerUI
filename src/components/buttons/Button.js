@@ -55,7 +55,7 @@ function Button({
 
     return (
         <Comp
-        aria-hidden="true"
+        aria-hidden="false"
          className = {className}  {...props}>
             {leftIcon && <span className='mr-2  cursor-default'>{leftIcon}</span>}
             {children}

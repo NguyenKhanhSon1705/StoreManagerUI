@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {confirmEmail, register } from "~/store/actions/authAction";
 import BoxNotication from "~/components/helper/BoxNotication";
 import { useNavigate } from "react-router-dom";
-import LoadingSyncLoader from "~/components/helper/LoadingSyncLoader";
+import LoadingSyncLoader from "~/components/loading/LoadingSyncLoader";
 
 
 const Register = () => {

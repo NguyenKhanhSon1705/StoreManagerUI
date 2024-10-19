@@ -7,11 +7,12 @@ import { MdDeleteOutline } from "react-icons/md";
 import { MdAdd } from "react-icons/md";
 
 import { createArea, deleteArea, getListAreas, updateArea } from "~/store/actions/areasAction";
-import LoadingSkeleton from "~/components/helper/LoadingSkeleton";
+import LoadingSkeleton from "~/components/loading/LoadingSkeleton";
 import DialogCustom from "~/components/dialog/DialogCustom";
 import DialogConfirm from "~/components/dialog/DialogConfirm";
 import Breadcrumb from "~/components/helper/Breadcrumb";
 import Button from "~/components/buttons/Button";
+import BoxNotication from "~/components/helper/BoxNotication";
 
 const fields = [
     {
@@ -26,7 +27,7 @@ const fields = [
 function Areas() {
 
     const dispatch = useDispatch()
-    const { data, loading, update } = useSelector(state => state.area)
+    const { data, loading} = useSelector(state => state.area)
     const [openDialog, setOpenDialog] = useState(false)
     const [openDialogConfim, setOpenDialogConfim] = useState(false)
     const [openDialogCreate, setOpenDialogCreate] = useState(false)
@@ -35,22 +36,17 @@ function Areas() {
 
     useEffect(() => {
         dispatch(getListAreas())
-    }, [dispatch, update])
+    }, [dispatch])
 
     const handleGetDetails = (item) => {
         setDetails(item)
         setOpenDialog(true)
     }
-
+    
     const handleDialogSubmitCreate = (item) =>{
-        console.log(item);
         dispatch(createArea(item))
     }
 
-    const handleDialogClose = () => {
-        setOpenDialog(false)
-        setOpenDialogCreate(false)
-    }
     const handleDialogConfirm = () => {
         setOpenDialogConfim(false)
     }
@@ -66,7 +62,6 @@ function Areas() {
        
         dispatch(deleteArea(items))
         setOpenDialogConfim(false)
-
     }
     return (
         <div>
@@ -80,7 +75,7 @@ function Areas() {
 
             <DialogCustom
                 open={openDialog}
-                handleClose={handleDialogClose}
+                onClose={()=>setOpenDialog(false)}
                 onSubmit={handleDialogSubmit}
                 item={details}
                 fields={fields}
@@ -88,10 +83,13 @@ function Areas() {
 
             <DialogCustom
                 open={openDialogCreate}
-                handleClose={handleDialogClose}
+                onClose={()=>setOpenDialogCreate(false)}
                 onSubmit={handleDialogSubmitCreate}
                 item={{areaName: ''}}
                 fields={fields}
+            />
+            <BoxNotication
+                
             />
 
             <div>

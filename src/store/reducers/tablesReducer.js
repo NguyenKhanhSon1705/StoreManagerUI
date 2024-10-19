@@ -11,45 +11,45 @@ export default function tablesReducer(state = initState, action) {
         case actionTypes.GET_LIST_TABLES: {
             return {
                 data: action.payload.data,
-                loading: false,
-                update: false
+                loading: action.payload.loading
             }
         }
-        case actionTypes.CREATE_AREA:
+        case actionTypes.CREATE_TABLES:
             return {
                 ...state,
                 data: [...state.data, action.payload.data],
-                message: action.payload.message,
-                loading: false,
-                update: true
+                update: action.payload.update,
+                message: action.payload.message
             }
-        case actionTypes.UPDATE_TABLES:
+        case actionTypes.UPDATE_TABLES:{
             return {
                 ...state,
-                data: state.data.map(table => table.id === action.payload.id ? action.payload : table),
+                data: state.data.map(item => item.id === action.payload.id ? action.payload.data : item),
                 message: action.payload.message,
-                loading: false,
-                update: true
-                // data: state.data.map(table => table.id === action.payload.id? action.payload: table)
+                update:  action.payload.update
             }
+        }
+            
         case actionTypes.DELETE_TABLES:
             return {
                 ...state,
-                data: state.data.filter(table => table.id !== action.payload),
+                data: state.data.filter(item => item.id !== action.payload.id),
                 message: action.payload.message,
-                loading: false,
-                update: false
+                update: action.payload.update
             }
-        case actionTypes.ERROR: {
+        case actionTypes.ERROR_TABLES: {
             return {
                 ...state,
                 message: action.payload.message,
-                loading: false
+                loading: action.payload.loading,
+                update: action.payload.update
             }
         }
-        case actionTypes.LOADING:{
+        case actionTypes.LOADING_TABLES:{
             return {
-                loading: action.payload.loading
+                ...state,
+                loading: action.payload.loading,
+                update: action.payload.update
             }
         }
         default:

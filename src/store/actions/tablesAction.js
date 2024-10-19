@@ -1,79 +1,158 @@
-import { apiCreateTable, apiGetListTables } from "~/services/tablesService";
+import { apiCreateTable, apiDeleteTables, apiGetListTables, apiUpdateTables } from "~/services/tablesService";
 import actionTypes from "./actionTypes";
 
-export const createTables = (payload) => async (dispatch) =>{
-    try{
+export const createTables = (payload) => async (dispatch) => {
+    dispatch({
+        type: actionTypes.LOADING_TABLES,
+        payload: {
+            update: true
+        }
+    })
+    try {
         let response = await apiCreateTable(payload);
-        if(response.data?.isSuccess){
+        if (response.data?.isSuccess) {
             dispatch({
                 type: actionTypes.CREATE_TABLES,
                 payload: {
                     message: response.data.message,
                     data: response.data.data,
-                    loading: false,
-                    update: true,
+                    update: false,
                 }
             })
-        }else{
+        } else {
             response = response.response
             dispatch({
-                type: actionTypes.ERROR,
+                type: actionTypes.ERROR_TABLES,
                 payload: {
                     message: response?.data?.message || Object.values(response?.data?.errors)[0],
-                    loading: false,
                     update: false
                 }
             })
         }
-    }catch(e){
+    } catch (e) {
         dispatch({
-            type: actionTypes.ERROR,
+            type: actionTypes.ERROR_TABLES,
             payload: {
                 message: e.message,
-                loading: false,
                 update: false
             }
         })
     }
 }
 
-export const getListTables = () => async (dispatch) =>{
+export const updateTables = (payload) => async (dispatch) => {
     dispatch({
-        type: actionTypes.LOADING,
+        type: actionTypes.LOADING_TABLES,
         payload: {
-            loading: true,
+            update: true
         }
     })
-    try{
-        let response = await apiGetListTables();
-        if(response.data?.isSuccess){
+    try {
+        let response = await apiUpdateTables(payload);
+        if (response.data?.isSuccess) {
             dispatch({
-                type: actionTypes.GET_LIST_TABLES,
+                type: actionTypes.UPDATE_TABLES,
                 payload: {
+                    id: payload.id,
                     message: response.data.message,
                     data: response.data.data,
-                    loading: false,
                     update: false,
                 }
             })
-        }else{
+        } else {
             response = response.response
             dispatch({
-                type: actionTypes.ERROR,
+                type: actionTypes.ERROR_TABLES,
                 payload: {
                     message: response?.data?.message || Object.values(response?.data?.errors)[0],
-                    loading: false,
                     update: false
                 }
             })
         }
-    }
-    catch(e){
+    } catch (e) {
         dispatch({
-            type: actionTypes.ERROR,
+            type: actionTypes.ERROR_TABLES,
             payload: {
                 message: e.message,
-                loading: false,
+                update: false
+            }
+        })
+    }
+}
+
+export const getListTables = () => async (dispatch) => {
+    dispatch({
+        type: actionTypes.LOADING_TABLES,
+        payload: {
+            loading: true
+        }
+    })
+    try {
+        let response = await apiGetListTables();
+        if (response.data?.isSuccess) {
+            dispatch({
+                type: actionTypes.GET_LIST_TABLES,
+                payload: {
+                    data: response.data.data,
+                    loading: false
+                }
+            })
+        } else {
+            response = response.response
+            dispatch({
+                type: actionTypes.ERROR_TABLES,
+                payload: {
+                    message: response?.data?.message || Object.values(response?.data?.errors)[0],
+                    loading: false
+                }
+            })
+        }
+    }
+    catch (e) {
+        dispatch({
+            type: actionTypes.ERROR_TABLES,
+            payload: {
+                message: e.message,
+                loading: false
+            }
+        })
+    }
+}
+
+
+export const deleteTables = (payload) => async (dispatch) => {
+    dispatch({
+        type: actionTypes.LOADING_TABLES,
+        payload: {
+            update: true
+        }
+    })
+    try {
+        let response = await apiDeleteTables(payload);
+        if (response.data?.isSuccess) {
+            dispatch({
+                type: actionTypes.DELETE_TABLES,
+                payload: {
+                    message: response.data.message,
+                    id: payload,
+                    update: false,
+                }
+            })
+        } else {
+            response = response.response
+            dispatch({
+                type: actionTypes.FAIL,
+                payload: {
+                    message: response?.data?.message || Object.values(response?.data?.errors)[0],
+                    update: false
+                }
+            })
+        }
+    } catch (e) {
+        dispatch({
+            type: actionTypes.FAIL,
+            payload: {
+                message: e.message,
                 update: false
             }
         })

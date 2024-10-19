@@ -1,14 +1,14 @@
 import { Alert, Snackbar } from "@mui/material";
-function BoxNotication({ message, type = 'error', handleClose , open  = false, timeout = 3000, cofig }) {
-    
+import { memo } from "react";
+function BoxNotication({ message, type = 'error', handleClose , open  = false, timeout = 5000, cofig }) {
     return (
       <div>
         <Snackbar open={open} autoHideDuration={timeout} onClose={handleClose}>
           <Alert
             onClose={handleClose}
             severity={type}
-            variant="standard"
-            sx={{ position: 'fixed' , top: '40px' , right: '30px' , maxWidth: '400px' , minWidth: '200px' }}
+            variant="filled"
+            sx={{ position: 'fixed' , top: '80px' , right: '30px' , maxWidth: '400px' , minWidth: '200px' }}
           >
             {message}
           </Alert>
@@ -18,4 +18,4 @@ function BoxNotication({ message, type = 'error', handleClose , open  = false, t
       
 }
 
-export default BoxNotication;
+export default memo(BoxNotication);

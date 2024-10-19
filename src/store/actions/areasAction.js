@@ -3,7 +3,7 @@ import actionTypes from "./actionTypes"
 
 export const getListAreas = () => async (dispatch) => {
     dispatch({
-        type: actionTypes.LOADING,
+        type: actionTypes.LOADING_AREA,
         payload: {
             loading: true
         }
@@ -22,21 +22,19 @@ export const getListAreas = () => async (dispatch) => {
         } else {
             res = res.response
             dispatch({
-                type: actionTypes.GET_LIST_AREA,
+                type: actionTypes.ERROR_AREA,
                 payload: {
                     message: res?.data?.message || Object.values(res?.data?.errors)[0],
                     loading: false,
-                    data: [],
                 }
             })
         }
     } catch (e) {
         dispatch({
-            type: actionTypes.GET_LIST_AREA,
+            type: actionTypes.ERROR_AREA,
             payload: {
                 message: e.message,
-                loading: false,
-                data: [],
+                loading: false
             }
         })
     }
@@ -44,7 +42,7 @@ export const getListAreas = () => async (dispatch) => {
 
 export const getAreaById = (payload) => async (dispatch) => {
     dispatch({
-        type: actionTypes.LOADING,
+        type: actionTypes.LOADING_AREA,
         payload: {
             loading: true
         }
@@ -60,11 +58,10 @@ export const getAreaById = (payload) => async (dispatch) => {
         })
     } catch (e) {
         dispatch({
-            type: actionTypes.GET_AREA_BY_ID,
+            type: actionTypes.ERROR_AREA,
             payload: {
                 message: e.message,
                 loading: false,
-                data: {},
             }
         })
     }
@@ -72,35 +69,39 @@ export const getAreaById = (payload) => async (dispatch) => {
 }
 
 export const createArea = (payload) => async (dispatch) =>{
+    dispatch({
+        type: actionTypes.LOADING_AREA,
+        payload: {
+            update: true
+        }
+    })
     try{
         let res = await apiCreateArea(payload)
-        if(res?.data?.isSuccess){
+        
+        if(res.data?.isSuccess){
             dispatch({
                 type: actionTypes.CREATE_AREA,
                 payload: {
                     data: res.data.data,
                     message: res.data.message,
-                    loading: false,
-                    update: true
+                    update: false
                 }
             })
         }else{
            res = res.response
            dispatch({
-            type: actionTypes.ERROR,
+            type: actionTypes.ERROR_AREA,
             payload: {
                 message: res?.data?.message || Object.values(res?.data?.errors)[0],
-                loading: false,
                 update: false
             }
            }) 
         }
     }catch(e){
         dispatch({
-            type: actionTypes.ERROR,
+            type: actionTypes.ERROR_AREA,
             payload: {
                 message: e.message,
-                loading: false,
                 update: false
             }
            }) 
@@ -109,39 +110,38 @@ export const createArea = (payload) => async (dispatch) =>{
 
 export const updateArea = (payload) => async (dispatch) => {
     dispatch({
-        type: actionTypes.LOADING,
+        type: actionTypes.LOADING_AREA,
         payload: {
-            loading: true,
+            update: true
         }
     })
     try {
         let res = await apiUpdateArea(payload)
         if (res?.data?.isSuccess) {
+            
             dispatch({
                 type: actionTypes.UPDATE_AREA,
                 payload: {
+                    data: res.data.data,
                     message: res.data.message,
-                    loading: false,
-                    update: true
+                    update: false
                 }
             })
         } else {
             res = res.response
             dispatch({
-                type: actionTypes.UPDATE_AREA,
+                type: actionTypes.ERROR_AREA,
                 payload: {
                     message: res?.data?.message || Object.values(res?.data?.errors)[0],
-                    loading: false,
                     update: false
                 }
             })
         }
     } catch (e) {
         dispatch({
-            type: actionTypes.UPDATE_AREA,
+            type: actionTypes.ERROR_AREA,
             payload: {
                 message: e.message,
-                loading: false,
                 update: false
             }
         })
@@ -149,9 +149,9 @@ export const updateArea = (payload) => async (dispatch) => {
 }
 export const deleteArea = (payload) => async (dispatch) => {
     dispatch({
-        type: actionTypes.LOADING,
+        type: actionTypes.LOADING_AREA,
         payload: {
-            loading: true,
+            update: true
         }
     })
     try {
@@ -162,27 +162,24 @@ export const deleteArea = (payload) => async (dispatch) => {
                 payload: {
                     id: payload,
                     message: res.data.message,
-                    loading: false,
-                    update: true
+                    update: false
                 }
             })
         } else {
             res = res.response
             dispatch({
-                type: actionTypes.DELETE_AREA,
+                type: actionTypes.ERROR_AREA,
                 payload: {
                     message: res?.data?.message || Object.values(res?.data?.errors)[0],
-                    loading: false,
                     update: false
                 }
             })
         }
     } catch (e) {
         dispatch({
-            type: actionTypes.DELETE_AREA,
+            type: actionTypes.ERROR_AREA,
             payload: {
                 message: e.message,
-                loading: false,
                 update: false
             }
         })

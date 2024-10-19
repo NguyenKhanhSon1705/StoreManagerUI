@@ -35,7 +35,7 @@ const shopReducer = (state = initState, action) => {
         case actionTypes.CREATE_SHOP: {
             return {
                 ...state,
-                data: action.payload.data,
+                data: [...state.data,(Array.isArray(action.payload.data) ? action.payload.data : [action.payload.data])],
                 message: action.payload.message,
                 loading: action.payload.loading,
                 update: action.payload.update

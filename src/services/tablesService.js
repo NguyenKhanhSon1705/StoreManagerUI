@@ -3,8 +3,10 @@ import httpRequest from "~/utils/axios"
 export const apiCreateTable = async (payload) => {
     try{
         const res = await httpRequest.post('/api/tables/create-tables',{
-            shopId: payload.shopId,
-            tables: payload.tables
+            "AreaId": payload.areaId,
+            "NameTable": payload.nameTable,
+            "HasHourlyRate": payload.hasHourlyRate,
+            "PriceOfMunite": payload.priceOfMunite
         })
         return res
     }
@@ -29,7 +31,13 @@ export const apiGetListTables = async () => {
 }
 export const apiUpdateTables = async (payload) =>{
     try{
-        const res = await httpRequest.put('/api/tables/update-tables', payload)
+        const res = await httpRequest.put('/api/tables/update-tables', {
+            "Id": payload.id,
+            "AreaId": payload.areaId,
+            "NameTable": payload.nameTable,
+            "HasHourlyRate": payload.hasHourlyRate,
+            "PriceOfMunite": payload.priceOfMunite
+        })
         return res
     }catch(e){
         return e

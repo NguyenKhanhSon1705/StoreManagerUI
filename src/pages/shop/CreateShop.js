@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { createShop } from "~/store/actions/shopAction";
 import { useNavigate } from "react-router-dom";
 import routes from "~/config/routes";
-import LoadingSyncLoader from "~/components/helper/LoadingSyncLoader";
+import LoadingSyncLoader from "~/components/loading/LoadingSyncLoader";
 
 const CreateShop = () => {
 

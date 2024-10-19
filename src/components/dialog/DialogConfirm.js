@@ -9,8 +9,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-export default function DialogConfirm({ title = '', open = false,items, onClose, onSubmit }) {
-
+function DialogConfirm({ title = '', open = false,items, onClose, onSubmit }) {
   return (
     <React.Fragment>
       <Dialog
@@ -35,3 +34,5 @@ export default function DialogConfirm({ title = '', open = false,items, onClose,
     </React.Fragment>
   );
 }
+
+export default DialogConfirm
